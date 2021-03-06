@@ -29,9 +29,6 @@ Page {
 
             width: page.width
             spacing: Theme.paddingLarge
-            PageHeader {
-                title: qsTr("UI Template")
-            }
             Label {
                 id: label
                 property int count: 0
