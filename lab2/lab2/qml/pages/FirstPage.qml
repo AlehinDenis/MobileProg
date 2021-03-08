@@ -26,19 +26,16 @@ Page {
         // of the page, followed by our content.
         Column {
             id: column
-
+            x: 200; y: 100
             width: page.width
-            spacing: 100
+            spacing: Theme.paddingLarge
+
             Item {
-                id: firstItem
-                anchors.horizontalCenter: parent.horizontalCenter
-                anchors.verticalCenter: parent.verticalCenter
                 Rectangle {
                     id: redRect
                     width: 100
                     height: 100
                     color: "#FF0000"
-
                 }
                 Rectangle {
                     id: greenRect
@@ -47,7 +44,6 @@ Page {
                     color: "#00FF00"
                     anchors.left: redRect.right
                     anchors.top: redRect.verticalCenter
-
                 }
                 Rectangle {
                     id: blueRect
@@ -65,39 +61,77 @@ Page {
                     anchors.centerIn: blueRect
                 }
             }
+
             Column {
-                anchors.topMargin: 100
-                anchors.horizontalCenter: parent.horizontalCenter
                 spacing: 15
                 Row {
                     spacing: 15
-                    Rectangle {
-                        width: 100
-                        height: 100
-                        color: "#FF0000"
-                    }
-                    Rectangle {
-                        width: 100
-                        height: 100
-                        color: "#00FF00"
-                    }
-                    Rectangle {
-                        width: 100
-                        height: 100
-                        color: "#0000FF"
-                    }
+                    Rectangle {width: 100; height: 100; color: "#FF0000"}
+                    Rectangle {width: 100; height: 100; color: "#00FF00"}
+                    Rectangle {width: 100; height: 100; color: "#0000FF"}
                 }
                 Row {
                     spacing: 130
-                    Rectangle {
-                        width: 100
-                        height: 100
-                        color: "#FF00FF"
+                    Rectangle {width: 100; height: 100; color: "#FF00FF"}
+                    Rectangle {width: 100; height: 100; color: "#000000"}
+                }
+            }
+            Grid{
+                id: grid
+                columns: 3
+                rows: 2
+                spacing: 15
+                Rectangle {width: 100; height: 100; color: "#FF0000"}
+                Rectangle {width: 100; height: 100; color: "#00FF00"}
+                Rectangle {width: 100; height: 100; color: "#0000FF"}
+                Rectangle {width: 100; height: 100; color: "#FF00FF"}
+                Rectangle {opacity: 0; width: 100; height: 100; color: "#000000"}
+                Rectangle {width: 100; height: 100; color: "#000000"}
+            }
+            Rectangle {
+                id: square
+                width: 100;
+                height: 100;
+                color: "#000000"
+            }
+            Rectangle {
+                width: 100;
+                height: 100;
+                color: "#000000"
+                transform:  [
+                Scale {yScale: 0.5},
+                Rotation {angle: 315},
+                Translate {x:115; y: -50  }
+                ]
+            }
+            Rectangle {
+                id:animRect
+                width: 100;
+                height: 100;
+                color: "#00FF00"
+                transform: [
+                //Scale {id:scale; xScale:1; yScale: 1},
+                //Translate {id:translate; y: 200}
+                ]
+                ParallelAnimation {
+                    id:anim
+                    loops: Animation.Infinite
+                    running: true
+                    PropertyAnimation {
+                        target:animRect
+                        properties: "scale"
+                        from: 1
+                        to: 1.5
+                        duration: 2000
+                        running: true
                     }
-                    Rectangle {
-                        width: 100
-                        height: 100
-                        color: "#000000"
+                    PropertyAnimation{
+                        target:animRect
+                        property: "y"
+                        from: 625
+                        to: 750
+                        duration: 2000
+                        running: true
                     }
                 }
             }

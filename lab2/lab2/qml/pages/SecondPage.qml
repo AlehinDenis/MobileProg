@@ -11,20 +11,59 @@ Page {
         id: listView
         model: 20
         anchors.fill: parent
-        header: PageHeader {
-            title: qsTr("Nested Page")
-        }
-        delegate: BackgroundItem {
-            id: delegate
+        Dialog {
+            id: dialog
+            Column{
+                anchors.fill: parent
+                width:parent.width
+                spacing: Theme.paddingMedium
+                DialogHeader {}
+                TextField {
+                    id: firstTextField
+                    width: parent.width / 2 - 50
+                }
 
-            Label {
-                x: Theme.horizontalPageMargin
-                text: qsTr("Item") + " " + index
-                anchors.verticalCenter: parent.verticalCenter
-                color: delegate.highlighted ? Theme.highlightColor : Theme.primaryColor
+
             }
-            onClicked: console.log("Clicked " + index)
+            onAccepted: console.log(parseInt(firstTextField.text) + parseInt(secondTextField.text))
         }
-        VerticalScrollDecorator {}
     }
+    /*Dialog {
+        id: dialog
+        Column{
+            anchors.fill: parent
+            width: parent.width
+            spacing:Theme.paddingMedium
+            DialogHeader {}
+            Label {
+                x: Theme.paddingLarge
+                text: "Введите текст"
+            }
+            TextField {
+                id: textField
+                width: parent.width
+            }
+        }
+        onAccepted: console.log(textField.text)
+    }*/
+/*
+    Dialog {
+        id: dialog
+        Column{
+            spacing: Theme.paddingMedium
+            DialogHeader {}
+            Row {
+                spacing: 50
+                TextField {
+                    id: firstTextField
+                    width: parent.width / 2 - 50
+                }
+                TextField {
+                    id: secondTextField
+                    width: parent.width / 2 - 50
+                }
+            }
+        }
+        onAccepted: console.log(parseInt(firstTextField.text) + parseInt(secondTextField.text))
+    }*/
 }
