@@ -24,43 +24,45 @@ Page {
 
         // Place our content in a Column.  The PageHeader is always placed at the top
         // of the page, followed by our content.
+
+        Item {
+            x: 200; y: 25
+            Rectangle {
+                id: redRect
+                width: 100
+                height: 100
+                color: "#FF0000"
+            }
+            Rectangle {
+                id: greenRect
+                width: 100
+                height: 100
+                color: "#00FF00"
+                anchors.left: redRect.right
+                anchors.top: redRect.verticalCenter
+            }
+            Rectangle {
+                id: blueRect
+                width: 100
+                height: 100
+                color: "#0000FF"
+                anchors.left: greenRect.horizontalCenter
+                anchors.bottom: greenRect.verticalCenter
+            }
+            Text {
+                text: "Квадрат"
+                font.family:"Helvetica"
+                font.pointSize: 15
+                color:"white"
+                anchors.centerIn: blueRect
+            }
+        }
+
         Column {
             id: column
-            x: 200; y: 100
+            x: 200; y: 200
             width: page.width
             spacing: Theme.paddingLarge
-
-            Item {
-                Rectangle {
-                    id: redRect
-                    width: 100
-                    height: 100
-                    color: "#FF0000"
-                }
-                Rectangle {
-                    id: greenRect
-                    width: 100
-                    height: 100
-                    color: "#00FF00"
-                    anchors.left: redRect.right
-                    anchors.top: redRect.verticalCenter
-                }
-                Rectangle {
-                    id: blueRect
-                    width: 100
-                    height: 100
-                    color: "#0000FF"
-                    anchors.left: greenRect.horizontalCenter
-                    anchors.bottom: greenRect.verticalCenter
-                }
-                Text {
-                    text: "Квадрат"
-                    font.family:"Helvetica"
-                    font.pointSize: 15
-                    color:"white"
-                    anchors.centerIn: blueRect
-                }
-            }
 
             Column {
                 spacing: 15
@@ -134,7 +136,7 @@ Page {
             Button {
                 text: "Открыть диалог"
                 onClicked: pageStack.push(dialog)
-                transform: Translate {id:translate; y: 125}
+                transform: Translate {id:translate; y: 75}
             }
         }
     }
@@ -159,20 +161,4 @@ Page {
         }
         onAccepted: console.log(parseInt(firstTextField.text) + parseInt(secondTextField.text))
     }
-    /*
-    Dialog {
-        id: dialog
-        width: page.width
-        Column{
-            spacing: Theme.paddingMedium
-            DialogHeader {}
-            TextField {
-                id: firstTextField
-            }
-            TextField {
-                id: secondTextField
-            }
-        }
-        onAccepted:
-    }*/
 }
