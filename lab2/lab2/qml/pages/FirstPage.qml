@@ -109,10 +109,6 @@ Page {
                 width: 100;
                 height: 100;
                 color: "#00FF00"
-                transform: [
-                //Scale {id:scale; xScale:1; yScale: 1},
-                //Translate {id:translate; y: 200}
-                ]
                 ParallelAnimation {
                     id:anim
                     loops: Animation.Infinite
@@ -135,6 +131,48 @@ Page {
                     }
                 }
             }
+            Button {
+                text: "Открыть диалог"
+                onClicked: pageStack.push(dialog)
+                transform: Translate {id:translate; y: 125}
+            }
         }
     }
+    Dialog {
+        id: dialog
+        DialogHeader {
+            title: "Суммирование чисел"
+        }
+        TextField {
+            placeholderText: "Первое число"
+            id: firstTextField
+            width: parent.width / 2
+            anchors.verticalCenter: parent.verticalCenter
+            anchors.left: parent.left
+        }
+        TextField {
+            placeholderText: "Второе число"
+            id: secondTextField
+            width: parent.width / 2
+            anchors.verticalCenter: parent.verticalCenter
+            anchors.left: firstTextField.right
+        }
+        onAccepted: console.log(parseInt(firstTextField.text) + parseInt(secondTextField.text))
+    }
+    /*
+    Dialog {
+        id: dialog
+        width: page.width
+        Column{
+            spacing: Theme.paddingMedium
+            DialogHeader {}
+            TextField {
+                id: firstTextField
+            }
+            TextField {
+                id: secondTextField
+            }
+        }
+        onAccepted:
+    }*/
 }
