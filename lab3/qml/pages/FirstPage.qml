@@ -128,7 +128,7 @@ Page {
             width:parent.width
             spacing: 30
             DialogHeader {
-                title: "Выберете дату и время"
+                title: "Выберите дату и время"
             }
             DatePicker {
                 cellHeight: 70
