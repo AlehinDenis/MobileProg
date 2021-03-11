@@ -15,27 +15,14 @@ Page {
         Button {
             anchors.horizontalCenter: parent.horizontalCenter
             text: "Открыть диалог"
-            onClicked: pageStack.push(dialog)
+            onClicked: {
+                var dialog = pageStack.push("Sailfish.Silica.DatePickerDialog", {date: new Date()})
+                dialog.accepted.connect(function() {label.text = dialog.dateText})
+            }
         }
         Label {
             anchors.horizontalCenter: parent.horizontalCenter
             id: label
         }
-    }
-    Dialog {
-        id: dialog
-        Column {
-            width:parent.width
-            spacing: 30
-            DialogHeader {
-                title: "Выберите дату"
-            }
-            DatePicker {
-                cellHeight: 70
-                id: date
-                daysVisible: true
-            }
-        }
-        onAccepted: label.text = date.dateText
     }
 }

@@ -15,38 +15,15 @@ Page {
         Button {
             anchors.horizontalCenter: parent.horizontalCenter
             text: "Открыть диалог"
-            onClicked: pageStack.push(dialog)
+            onClicked: {
+                var dialog = pageStack.push("Sailfish.Silica.TimePickerDialog", {hour: 12, minute: 0})
+                dialog.accepted.connect(function() {label.text = dialog.timeText})
+            }
         }
         Label {
             anchors.horizontalCenter: parent.horizontalCenter
             id: label
         }
     }
-    Dialog {
-        id: dialog
-        Column {
-            width:parent.width
-            spacing: 30
-            DialogHeader {
-                title: "Выберите время"
-            }
-            Item {
-                height: time.height
-                width: parent.width
-                TimePicker {
-                    anchors.horizontalCenter: parent.horizontalCenter
-                    width: 400
-                    height: 400
-                    id: time
-                    hourMode: DateTime.TwentyFourHours
-                }
-                Label {
-                    anchors.centerIn: time
-                    text: time.timeText
-                    font.pixelSize: Theme.fontSizeExtraLarge
-                }
-            }
-        }
-        onAccepted: label.text = time.timeText
-    }
 }
+
