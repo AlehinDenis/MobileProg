@@ -3,78 +3,151 @@ import Sailfish.Silica 1.0
 
 Page {
     id: page
+    property int pages: 0
     allowedOrientations: Orientation.All
-
-    Timer {
-        id: timer
-        function start() {
-            timer.interval = 10;
-            timer.repeat = false;
-            timer.triggered.connect(cb);
-            timer.triggered.connect(function release () {
-                timer.triggered.disconnect(cb); // This is important
-                timer.triggered.disconnect(release); // This is important as well
-            });
-            timer.start();
+    SilicaFlickable {
+        anchors.fill: parent
+        PullDownMenu {
+            MenuItem {
+                text: qsTr("Show Page 2")
+                onClicked: pageStack.push(Qt.resolvedUrl("SecondPage.qml"))
+            }
+        }
+        Column {
+            id: trafficLight
+            y: 200
+            width: parent.width
+            spacing: 10
+            state: "red"
+            states: [
+                State {
+                    name: "red"
+                    PropertyChanges {
+                        target: redRect
+                        color:"red"
+                    }
+                    PropertyChanges {
+                        target: yellowRect
+                        color:"black"
+                    }
+                    PropertyChanges {
+                        target: greenRect
+                        color:"black"
+                    }
+                },
+                State {
+                    name: "yellow"
+                    PropertyChanges {
+                        target: redRect
+                        color:"black"
+                    }
+                    PropertyChanges {
+                        target: yellowRect
+                        color:"yellow"
+                    }
+                    PropertyChanges {
+                        target: greenRect
+                        color:"black"
+                    }
+                },
+                State {
+                    name: "green"
+                    PropertyChanges {
+                        target: redRect
+                        color:"black"
+                    }
+                    PropertyChanges {
+                        target: yellowRect
+                        color:"black"
+                    }
+                    PropertyChanges {
+                        target: greenRect
+                        color:"green"
+                    }
+                }
+            ]
+            Rectangle {
+                id: redRect
+                anchors.horizontalCenter: parent.horizontalCenter
+                width: 200
+                height: width
+                radius: width*0.5
+                color: "black"
+            }
+            Rectangle {
+                id: yellowRect
+                anchors.horizontalCenter: parent.horizontalCenter
+                width: 200
+                height: width
+                radius: width*0.5
+                color: "black"
+            }
+            Rectangle {
+                id: greenRect
+                anchors.horizontalCenter: parent.horizontalCenter
+                width: 200
+                height: width
+                radius: width*0.5
+                color: "black"
+            }
+            Timer {
+                interval: 3000
+                repeat: true
+                running:true
+                onTriggered:  {
+                    var states = ["red", "yellow", "green"]
+                    var nextIndex = (states.indexOf(parent.state) + 1) % states.length
+                    if(parent.state === "yellow") {
+                        if(human.state === "runRight")
+                            human.state = "runLeft"
+                        else
+                            human.state = "runRight"
+                    }
+                    parent.state = states[nextIndex]
+                }
+            }
+        }
+        Image {
+            id: human
+            y: 900
+            width: 200
+            height: 200
+            source: "human.png"
+            state: "runLeft"
+            states: [
+                State {
+                    name: "runRight"
+                    PropertyChanges {
+                        target: human
+                        x: 500
+                    }
+                },
+                State {
+                    name: "runLeft"
+                    PropertyChanges {
+                        target: human
+                        x: 0
+                    }
+                }
+            ]
+            transitions: [
+                Transition {
+                    SequentialAnimation {
+                        PropertyAnimation {
+                            property: "x";
+                            duration: 3000
+                        }
+                    }
+                }
+            ]
         }
     }
+    Component.onCompleted: {
+        pageStack.onDepthChanged.connect(pageCount)
+    }
 
-    Column {
-        y: 200
-        width: parent.width
-        spacing: 10
-        property double time: 0
-        Rectangle {
-            id: red
-            anchors.horizontalCenter: parent.horizontalCenter
-            width: 200
-            height: width
-            radius: width*0.5
-            color: "black"
-            state: "red"
-            states:
-            State {
-                name: "red"
-                when:(green.stateIndicator.state == "green")
-                PropertyChanges {
-                    target: red
-                    color:"red"
-                }
-            }
-        }
-        Rectangle {
-            id: yellow
-            anchors.horizontalCenter: parent.horizontalCenter
-            width: 200
-            height: width
-            radius: width*0.5
-            color: "black"
-            states:
-            State {
-                name: "yellow"
-                when:(red.stateIndicator.state == "red")
-                PropertyChanges {
-                    target: yellow
-                    color:"yellow"
-                }
-            }
-        }
-        Rectangle {
-            id: green
-            anchors.horizontalCenter: parent.horizontalCenter
-            width: 200
-            height: width
-            radius: width*0.5
-            color: "black"
-            states:
-            State {
-                name: "green"
-                when:(yellow.stateIndicator.state == "yellow")
-                PropertyChanges {
-                    target: green
-                    color:"green"
-                }
-            }
-        }
+    function pageCount() {
+        pages = pageStack.depth
+        console.log(pages)
     }
 }

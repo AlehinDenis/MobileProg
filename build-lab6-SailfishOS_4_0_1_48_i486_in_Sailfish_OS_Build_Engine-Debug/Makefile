@@ -53,7 +53,13 @@ OBJECTS       = lab6.o
 DIST          = ../lab6/qml/lab6.qml \
 		../lab6/qml/cover/CoverPage.qml \
 		../lab6/qml/pages/FirstPage.qml \
+		../lab6/qml/pages/MyComponent.qml \
+		../lab6/qml/pages/MyTimer.qml \
+		../lab6/qml/pages/Page3.qml \
+		../lab6/qml/pages/Page4.qml \
+		../lab6/qml/pages/Page5.qml \
 		../lab6/qml/pages/SecondPage.qml \
+		../lab6/qml/pages/TrafficLight.qml \
 		../lab6/rpm/lab6.changes.in \
 		../lab6/rpm/lab6.changes.run.in \
 		../lab6/rpm/lab6.spec \

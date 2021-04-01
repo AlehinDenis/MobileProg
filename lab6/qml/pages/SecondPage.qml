@@ -1,30 +1,76 @@
 import QtQuick 2.0
 import Sailfish.Silica 1.0
 
+
 Page {
     id: page
-
-    // The effective value will be restricted by ApplicationWindow.allowedOrientations
     allowedOrientations: Orientation.All
-
-    SilicaListView {
-        id: listView
-        model: 20
+    SilicaFlickable {
         anchors.fill: parent
-        header: PageHeader {
-            title: qsTr("Nested Page")
-        }
-        delegate: BackgroundItem {
-            id: delegate
-
-            Label {
-                x: Theme.horizontalPageMargin
-                text: qsTr("Item") + " " + index
-                anchors.verticalCenter: parent.verticalCenter
-                color: delegate.highlighted ? Theme.highlightColor : Theme.primaryColor
+        PullDownMenu {
+            MenuItem {
+                text: qsTr("Show Page 3")
+                onClicked: pageStack.push(Qt.resolvedUrl("Page3.qml"))
             }
-            onClicked: console.log("Clicked " + index)
         }
-        VerticalScrollDecorator {}
+        Label {
+            anchors.horizontalCenter: parent.horizontalCenter
+            id: label1
+            text: "Hello world!"
+            font.pixelSize: 100
+            color: "white"
+            state: "up"
+            states: [
+                State {
+                    name: "up"
+                    PropertyChanges {
+                        target: label1
+                        y: 50
+                    }
+                },
+                State {
+                    name: "down"
+                    PropertyChanges {
+                        target: label1
+                        y: 1200
+                        color:"green"
+                        rotation: 180
+                    }
+                }
+            ]
+            transitions: [
+                Transition {
+                    to: "down"
+                    SequentialAnimation {
+                        PropertyAnimation {
+                            property: "y";
+                            duration: 3000
+                        }
+                    }
+                    RotationAnimation {
+                        duration: 3000;
+                        direction: RotationAnimation.Counterclockwise
+                    }
+                },
+                Transition {
+                    to: "up"
+                    SequentialAnimation {
+                        PropertyAnimation {
+                            property: "y";
+                            duration: 3000
+                        }
+                    }
+                    RotationAnimation {
+                        duration: 3000;
+                        direction: RotationAnimation.Clockwise
+                    }
+                }
+            ]
+            MouseArea {
+                anchors.fill:parent
+                onPressed: parent.state = "down"
+                onReleased: parent.state = "up"
+            }
+        }
     }
 }

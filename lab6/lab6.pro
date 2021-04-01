@@ -19,7 +19,13 @@ SOURCES += src/lab6.cpp
 DISTFILES += qml/lab6.qml \
     qml/cover/CoverPage.qml \
     qml/pages/FirstPage.qml \
+    qml/pages/MyComponent.qml \
+    qml/pages/MyTimer.qml \
+    qml/pages/Page3.qml \
+    qml/pages/Page4.qml \
+    qml/pages/Page5.qml \
     qml/pages/SecondPage.qml \
+    qml/pages/TrafficLight.qml \
     rpm/lab6.changes.in \
     rpm/lab6.changes.run.in \
     rpm/lab6.spec \
