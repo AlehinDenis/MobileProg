@@ -7,32 +7,43 @@ Page {
 
     // The effective value will be restricted by ApplicationWindow.allowedOrientations
     allowedOrientations: Orientation.All
+    SilicaFlickable {
+            anchors.fill: parent
+            PullDownMenu {
+                MenuItem {
+                    text: qsTr("Show Page 2")
+                    onClicked: pageStack.push(Qt.resolvedUrl("SecondPage.qml"))
+                }
+            }
+            Counter {
+                id: counter
+                count: 10
+                onCountChanged: label.text = counter.getCount()
 
+            }
 
-    Counter {
-        id: counter
-        count: 0
-    }
-
-    Column {
-        y:500
-        spacing: 10
-        width: parent.width
-        Label {
-            y: 100
-            anchors.horizontalCenter: parent.horizontalCenter
-            text: counter.count
+            Column {
+                y:500
+                spacing: 10
+                width: parent.width
+                Label {
+                    id: label
+                    y: 100
+                    text: counter.getCount()
+                    font.pixelSize: 80
+                    anchors.horizontalCenter: parent.horizontalCenter
+                }
+                Button {
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    text: "Увеличить"
+                    onClicked: counter.add()
+                }
+                Button {
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    text: "Сбросить"
+                    onClicked: counter.reset()
+                }
+            }
         }
-        Button {
-            anchors.horizontalCenter: parent.horizontalCenter
-            text: "Увеличить"
-            onClicked: {counter.add()}
-        }
-        Button {
-            anchors.horizontalCenter: parent.horizontalCenter
-            text: "Сбросить"
-            onClicked: counter.reset()
-        }
-    }
 }
 

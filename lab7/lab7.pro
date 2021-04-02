@@ -14,8 +14,7 @@ TARGET = lab7
 
 CONFIG += sailfishapp
 
-SOURCES += src/lab7.cpp \
-    src/counter.cpp
+SOURCES += src/lab7.cpp
 
 DISTFILES += qml/lab7.qml \
     qml/cover/CoverPage.qml \
@@ -41,4 +40,5 @@ CONFIG += sailfishapp_i18n
 TRANSLATIONS += translations/lab7-de.ts
 
 HEADERS += \
+    src/MyList.h \
     src/counter.h

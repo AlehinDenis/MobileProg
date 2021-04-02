@@ -7,13 +7,19 @@ class Counter : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(int count READ getCount WRITE setCount NOTIFY countChanged)
-public:
+private:
     int count;
-    Q_INVOKABLE void add() {count++;}
-    Q_INVOKABLE void reset() { count = 0;}
+public:
+    Q_INVOKABLE void add() {
+        count++;
+        emit countChanged();
+    }
+    Q_INVOKABLE void reset() {
+        count = 0;
+        emit countChanged();
+    }
     Q_INVOKABLE int getCount() {return count;}
-    void setCount(int Count) {count = Count;}
-
+    Q_INVOKABLE void setCount(int Count) {count = Count;}
 signals:
     void countChanged();
 };

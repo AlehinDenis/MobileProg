@@ -48,10 +48,10 @@ OBJECTS_DIR   = ./
 
 ####### Files
 
-SOURCES       = ../lab7/src/lab7.cpp \
-		../lab7/src/counter.cpp moc_counter.cpp
+SOURCES       = ../lab7/src/lab7.cpp moc_MyList.cpp \
+		moc_counter.cpp
 OBJECTS       = lab7.o \
-		counter.o \
+		moc_MyList.o \
 		moc_counter.o
 DIST          = ../lab7/qml/lab7.qml \
 		../lab7/qml/cover/CoverPage.qml \
@@ -162,8 +162,8 @@ DIST          = ../lab7/qml/lab7.qml \
 		/usr/share/qt5/mkspecs/features/exceptions.prf \
 		/usr/share/qt5/mkspecs/features/yacc.prf \
 		/usr/share/qt5/mkspecs/features/lex.prf \
-		../lab7/lab7.pro ../lab7/src/counter.h ../lab7/src/lab7.cpp \
-		../lab7/src/counter.cpp
+		../lab7/lab7.pro ../lab7/src/MyList.h \
+		../lab7/src/counter.h ../lab7/src/lab7.cpp
 QMAKE_TARGET  = lab7
 DESTDIR       = 
 TARGET        = lab7
@@ -400,8 +400,8 @@ dist: distdir FORCE
 distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
-	$(COPY_FILE) --parents ../lab7/src/counter.h $(DISTDIR)/
-	$(COPY_FILE) --parents ../lab7/src/lab7.cpp ../lab7/src/counter.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents ../lab7/src/MyList.h ../lab7/src/counter.h $(DISTDIR)/
+	$(COPY_FILE) --parents ../lab7/src/lab7.cpp $(DISTDIR)/
 	$(COPY_FILE) --parents translations/lab7-de.ts $(DISTDIR)/
 
 
@@ -427,9 +427,12 @@ benchmark: first
 
 compiler_rcc_make_all:
 compiler_rcc_clean:
-compiler_moc_header_make_all: moc_counter.cpp
+compiler_moc_header_make_all: moc_MyList.cpp moc_counter.cpp
 compiler_moc_header_clean:
-	-$(DEL_FILE) moc_counter.cpp
+	-$(DEL_FILE) moc_MyList.cpp moc_counter.cpp
+moc_MyList.cpp: ../lab7/src/MyList.h
+	/usr/lib/qt5/bin/moc $(DEFINES) -I/usr/share/qt5/mkspecs/linux-g++ -I/c/Users/PC/Desktop/SailFish/lab7 -I/usr/include/sailfishapp -I/usr/include/mdeclarativecache5 -I/usr/include/qt5 -I/usr/include/qt5/QtQuick -I/usr/include/qt5/QtGui -I/usr/include/qt5/QtQml -I/usr/include/qt5/QtNetwork -I/usr/include/qt5/QtCore -I. -I/usr/include/c++/8.3.0 -I/usr/include/c++/8.3.0/i486-meego-linux -I/usr/include/c++/8.3.0/backward -I/usr/lib/gcc/i486-meego-linux/8.3.0/include -I/usr/local/include -I/usr/include ../lab7/src/MyList.h -o moc_MyList.cpp
+
 moc_counter.cpp: ../lab7/src/counter.h
 	/usr/lib/qt5/bin/moc $(DEFINES) -I/usr/share/qt5/mkspecs/linux-g++ -I/c/Users/PC/Desktop/SailFish/lab7 -I/usr/include/sailfishapp -I/usr/include/mdeclarativecache5 -I/usr/include/qt5 -I/usr/include/qt5/QtQuick -I/usr/include/qt5/QtGui -I/usr/include/qt5/QtQml -I/usr/include/qt5/QtNetwork -I/usr/include/qt5/QtCore -I. -I/usr/include/c++/8.3.0 -I/usr/include/c++/8.3.0/i486-meego-linux -I/usr/include/c++/8.3.0/backward -I/usr/lib/gcc/i486-meego-linux/8.3.0/include -I/usr/local/include -I/usr/include ../lab7/src/counter.h -o moc_counter.cpp
 
@@ -445,11 +448,12 @@ compiler_clean: compiler_moc_header_clean
 
 ####### Compile
 
-lab7.o: ../lab7/src/lab7.cpp ../lab7/src/counter.h
+lab7.o: ../lab7/src/lab7.cpp ../lab7/src/counter.h \
+		../lab7/src/MyList.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o lab7.o ../lab7/src/lab7.cpp
 
-counter.o: ../lab7/src/counter.cpp ../lab7/src/counter.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o counter.o ../lab7/src/counter.cpp
+moc_MyList.o: moc_MyList.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_MyList.o moc_MyList.cpp
 
 moc_counter.o: moc_counter.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_counter.o moc_counter.cpp

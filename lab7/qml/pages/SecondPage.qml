@@ -1,5 +1,6 @@
 import QtQuick 2.0
 import Sailfish.Silica 1.0
+import List 1.0
 
 Page {
     id: page
@@ -11,20 +12,36 @@ Page {
         id: listView
         model: 20
         anchors.fill: parent
-        header: PageHeader {
-            title: qsTr("Nested Page")
-        }
-        delegate: BackgroundItem {
-            id: delegate
-
-            Label {
-                x: Theme.horizontalPageMargin
-                text: qsTr("Item") + " " + index
-                anchors.verticalCenter: parent.verticalCenter
-                color: delegate.highlighted ? Theme.highlightColor : Theme.primaryColor
+        Column {
+            List {
+                id: list
+                onListChanged : {
+                    label.text = list.getList()
+                }
             }
-            onClicked: console.log("Clicked " + index)
+
+            y:500
+            spacing: 10
+            width: parent.width
+            TextField  {
+                id: textField
+                placeholderText: "Слово"
+
+            }
+            Button {
+                anchors.horizontalCenter: parent.horizontalCenter
+                text:"Добавить слово"
+                onClicked: list.push(textField.text)
+            }
+            Button {
+                anchors.horizontalCenter: parent.horizontalCenter
+                text: "Удалить слово"
+                onClicked: list.pop()
+            }
+            Label {
+                anchors.horizontalCenter: parent.horizontalCenter
+                id: label
+            }
         }
-        VerticalScrollDecorator {}
     }
 }

@@ -9,13 +9,9 @@
     </message>
 </context>
 <context>
-    <name>SecondPage</name>
+    <name>FirstPage</name>
     <message>
-        <source>Nested Page</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Item</source>
+        <source>Show Page 2</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
