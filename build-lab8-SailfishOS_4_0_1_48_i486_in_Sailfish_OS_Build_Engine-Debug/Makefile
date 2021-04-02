@@ -48,8 +48,11 @@ OBJECTS_DIR   = ./
 
 ####### Files
 
-SOURCES       = ../lab8/src/lab8.cpp 
-OBJECTS       = lab8.o
+SOURCES       = ../lab8/src/lab8.cpp \
+		../lab8/src/request.cpp moc_requst.cpp
+OBJECTS       = lab8.o \
+		request.o \
+		moc_requst.o
 DIST          = ../lab8/qml/lab8.qml \
 		../lab8/qml/cover/CoverPage.qml \
 		../lab8/qml/pages/FirstPage.qml \
@@ -159,7 +162,8 @@ DIST          = ../lab8/qml/lab8.qml \
 		/usr/share/qt5/mkspecs/features/exceptions.prf \
 		/usr/share/qt5/mkspecs/features/yacc.prf \
 		/usr/share/qt5/mkspecs/features/lex.prf \
-		../lab8/lab8.pro  ../lab8/src/lab8.cpp
+		../lab8/lab8.pro ../lab8/src/requst.h ../lab8/src/lab8.cpp \
+		../lab8/src/request.cpp
 QMAKE_TARGET  = lab8
 DESTDIR       = 
 TARGET        = lab8
@@ -396,7 +400,8 @@ dist: distdir FORCE
 distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
-	$(COPY_FILE) --parents ../lab8/src/lab8.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents ../lab8/src/requst.h $(DISTDIR)/
+	$(COPY_FILE) --parents ../lab8/src/lab8.cpp ../lab8/src/request.cpp $(DISTDIR)/
 	$(COPY_FILE) --parents translations/lab8-de.ts $(DISTDIR)/
 
 
@@ -422,8 +427,12 @@ benchmark: first
 
 compiler_rcc_make_all:
 compiler_rcc_clean:
-compiler_moc_header_make_all:
+compiler_moc_header_make_all: moc_requst.cpp
 compiler_moc_header_clean:
+	-$(DEL_FILE) moc_requst.cpp
+moc_requst.cpp: ../lab8/src/requst.h
+	/usr/lib/qt5/bin/moc $(DEFINES) -I/usr/share/qt5/mkspecs/linux-g++ -I/c/Users/PC/Desktop/SailFish/lab8 -I/usr/include/sailfishapp -I/usr/include/mdeclarativecache5 -I/usr/include/qt5 -I/usr/include/qt5/QtQuick -I/usr/include/qt5/QtGui -I/usr/include/qt5/QtQml -I/usr/include/qt5/QtNetwork -I/usr/include/qt5/QtCore -I. -I/usr/include/c++/8.3.0 -I/usr/include/c++/8.3.0/i486-meego-linux -I/usr/include/c++/8.3.0/backward -I/usr/lib/gcc/i486-meego-linux/8.3.0/include -I/usr/local/include -I/usr/include ../lab8/src/requst.h -o moc_requst.cpp
+
 compiler_moc_source_make_all:
 compiler_moc_source_clean:
 compiler_yacc_decl_make_all:
@@ -432,12 +441,18 @@ compiler_yacc_impl_make_all:
 compiler_yacc_impl_clean:
 compiler_lex_make_all:
 compiler_lex_clean:
-compiler_clean: 
+compiler_clean: compiler_moc_header_clean 
 
 ####### Compile
 
-lab8.o: ../lab8/src/lab8.cpp 
+lab8.o: ../lab8/src/lab8.cpp ../lab8/src/requst.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o lab8.o ../lab8/src/lab8.cpp
+
+request.o: ../lab8/src/request.cpp ../lab8/src/requst.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o request.o ../lab8/src/request.cpp
+
+moc_requst.o: moc_requst.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_requst.o moc_requst.cpp
 
 ####### Install
 

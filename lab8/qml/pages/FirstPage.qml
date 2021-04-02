@@ -1,42 +1,75 @@
 import QtQuick 2.0
 import Sailfish.Silica 1.0
+import Request 1.0
 
 Page {
     id: page
-
-    // The effective value will be restricted by ApplicationWindow.allowedOrientations
     allowedOrientations: Orientation.All
 
-    // To enable PullDownMenu, place our content in a SilicaFlickable
-    SilicaFlickable {
-        anchors.fill: parent
+    Request {
+        id: request
+        onImageChanged: image.source = request.getImage()
+        onRespondChanged: label.text = request.getRespond()
 
-        // PullDownMenu and PushUpMenu must be declared in SilicaFlickable, SilicaListView or SilicaGridView
-        PullDownMenu {
-            MenuItem {
-                text: qsTr("Show Page 2")
-                onClicked: pageStack.push(Qt.resolvedUrl("SecondPage.qml"))
+    }
+
+    Column {
+        width: parent.width
+        height: parent.height
+        spacing: 15
+        Label {
+            id: label
+            font.pixelSize: 25
+            anchors.horizontalCenter: parent.horizontalCenter
+        }
+        Button {
+            anchors.horizontalCenter: parent.horizontalCenter
+            text: "Get-запрос"
+            onClicked: {
+                request.sendGetRequest();
             }
         }
-
-        // Tell SilicaFlickable the height of its content.
-        contentHeight: column.height
-
-        // Place our content in a Column.  The PageHeader is always placed at the top
-        // of the page, followed by our content.
-        Column {
-            id: column
-
-            width: page.width
-            spacing: Theme.paddingLarge
-            PageHeader {
-                title: qsTr("UI Template")
+        Label {
+            anchors.horizontalCenter: parent.horizontalCenter
+            text: "Тело POST запроса:"
+        }
+        TextField {
+            id: textField
+            anchors.horizontalCenter: parent.horizontalCenter
+        }
+        Button {
+            anchors.horizontalCenter: parent.horizontalCenter
+            text: "Post-запрос"
+            onClicked: {
+                request.sendPostRequest(textField.text);
             }
-            Label {
-                x: Theme.horizontalPageMargin
-                text: qsTr("Hello Sailors")
-                color: Theme.secondaryHighlightColor
-                font.pixelSize: Theme.fontSizeExtraLarge
+        }
+        Image {
+            width: 150
+            height: 150
+            anchors.horizontalCenter: parent.horizontalCenter
+            id: image
+        }
+        Button {
+            anchors.horizontalCenter: parent.horizontalCenter
+            text: "Получить картинку"
+            onClicked: {
+                request.sendImageRequest();
+            }
+        }
+        Label {
+            anchors.horizontalCenter: parent.horizontalCenter
+            text: "Тело PUT запроса:"
+        }
+        TextField {
+            id: textField2
+            anchors.horizontalCenter: parent.horizontalCenter
+        }
+        Button {
+            anchors.horizontalCenter: parent.horizontalCenter
+            text: "Put-запрос"
+            onClicked: {
+                request.sendPutRequest(textField2.text);
             }
         }
     }

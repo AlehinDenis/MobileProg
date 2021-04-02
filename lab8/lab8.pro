@@ -14,7 +14,8 @@ TARGET = lab8
 
 CONFIG += sailfishapp
 
-SOURCES += src/lab8.cpp
+SOURCES += src/lab8.cpp \
+    src/request.cpp
 
 DISTFILES += qml/lab8.qml \
     qml/cover/CoverPage.qml \
@@ -38,3 +39,6 @@ CONFIG += sailfishapp_i18n
 # following TRANSLATIONS line. And also do not forget to
 # modify the localized app name in the the .desktop file.
 TRANSLATIONS += translations/lab8-de.ts
+
+HEADERS += \
+    src/requst.h

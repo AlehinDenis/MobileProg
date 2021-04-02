@@ -6,7 +6,6 @@
 class List : public QObject
 {
     Q_OBJECT
-    //Q_PROPERTY(int list READ getCount WRITE setCount NOTIFY listChanged)
 private:
     QVector<QString> list;
 public:
